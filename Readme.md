@@ -1,15 +1,19 @@
-# Node.js Style Guide
+# Vungle JavaScript Style Guide
 
-This is a guide for writing consistent and aesthetically pleasing node.js code.
-It is inspired by what is popular within the community, and flavored with some
-personal opinions.
+This is a guide for writing consistent and aesthetically pleasing JavaScript
+code in Vungle repositories. The majority of the style selections are what's
+popular in the wide JavaScript community with major influences from
+[Felix's Node Style Guide](https://github.com/felixge/node-style-guide),
+[Google's JS Style Guide](https://google.github.io/styleguide/javascriptguide.xml)
+and some of Vungle's own conventions.
 
-There is a .jshintrc which enforces these rules as closely as possible. You can
-either use that and adjust it, or use
+This `Readme.md` file verbally explains the rules. There is a `.jshintrc` which
+enforces these rules as closely as possible. You can either use that and adjust
+it, or use
 [this script](https://gist.github.com/kentcdodds/11293570) to make your own.
 
-This guide was created by [Felix Geisendörfer](http://felixge.de/) and is
-licensed under the [CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)
+This guide is licensed under the
+[CC BY-SA 3.0](http://creativecommons.org/licenses/by-sa/3.0/)
 license. You are encouraged to fork this repository and make adjustments
 according to your preferences.
 
