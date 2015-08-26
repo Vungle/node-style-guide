@@ -30,9 +30,10 @@ according to your preferences.
 * [Opening braces go on the same line](#opening-braces-go-on-the-same-line)
 * [Method chaining](#method-chaining)
 * [Declare one variable per var statement](#declare-one-variable-per-var-statement)
-* [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
-* [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
-* [Use UPPERCASE for Constants](#use-uppercase-for-constants)
+* [Naming Conventions](#naming-conventions)
+  * [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
+  * [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
+  * [Use UPPERCASE for Constants](#use-uppercase-for-constants)
 * [Object / Array creation](#object--array-creation)
 * [Use the === operator](#use-the--operator)
 * [Use multi-line ternary operator](#use-multi-line-ternary-operator)
@@ -191,7 +192,8 @@ while (keys.length) {
 
 [crockfordconvention]: http://javascript.crockford.com/code.html
 
-## Use lowerCamelCase for variables, properties and function names
+## Naming Conventions
+### Use lowerCamelCase for variables, properties and function names
 
 Variables, properties and function names should use `lowerCamelCase`.  They
 should also be descriptive. Single character variables and uncommon
@@ -201,23 +203,55 @@ abbreviations should generally be avoided.
 
 ```js
 var adminUser = db.query('SELECT * FROM users ...');
+var itIsOkToHaveSuperLongVariableNames = 'whats up';
 ```
 
 *Wrong:*
 
 ```js
 var admin_user = db.query('SELECT * FROM users ...');
+var nua = 'Never use abbreviations.';
 ```
 
-## Use UpperCamelCase for class names
+#### Proper, well-known names should only capitalize the first character
+Proper or well-known abbreviations such as URL, XML, VAST, OpenRTB shoud only
+capitalize the first character of the abbreviation.
 
-Class names should be capitalized using `UpperCamelCase`.
+*Right:*
+
+```js
+var urlFormatter = 'is cool';
+var isUrlFormatter = 'is cool';
+var openRtbValue = 'is cool';
+var aUrlThatEatsXmlAndProducesOpenRtb = 'is cool';
+```
+
+*Wrong:*
+
+```js
+var uRLFormatter = 'is not cool';
+var URLFormatter = 'is not cool';
+var isURLFormatter = 'is not cool';
+var openRTBValue = 'is not cool';
+var aURLThatEatsXMLAndProducesOpenRTB = 'is not cool';
+```
+
+### Use UpperCamelCase for class names
+
+Class names should be capitalized using `UpperCamelCase`. For example, when a
+variable is annotated with `@constructor`, it better be an UpperCamelCase class
+name.
 
 *Right:*
 
 ```js
 function BankAccount() {
 }
+
+/** @constructor */
+var Client = function() {
+
+};
 ```
 
 *Wrong:*
@@ -225,38 +259,49 @@ function BankAccount() {
 ```js
 function bank_Account() {
 }
+
+/** @constructor */
+var client = function() {
+
+};
 ```
 
-## Use UPPERCASE for Constants
+### Use UPPERCASE for Constants
 
 Constants should be declared as regular variables or static class properties,
 using all uppercase letters.
 
-Node.js / V8 actually supports mozilla's [const][const] extension, but
-unfortunately that cannot be applied to class members, nor is it part of any
-ECMA standard.
+*NOTE*: Use of ES6 keyword `const` is okay in NodeJS / V8 engines but
+discouraged until ES6 becomes more widely accepted. And, variablenames should
+still be be UPPERCASE_LIKE_THIS.
+
+Annotation with `@const` is recommended for all constant variables.
 
 *Right:*
 
 ```js
+/** @const */
 var SECOND = 1 * 1000;
+
+var MINUTE = 60 * SECOND; // Okay, but discouraged.
 
 function File() {
 }
+
+/** @const */
 File.FULL_PERMISSIONS = 0777;
 ```
 
 *Wrong:*
 
 ```js
-const SECOND = 1 * 1000;
+var second = 1 * 1000;
 
 function File() {
 }
+
 File.fullPermissions = 0777;
 ```
-
-[const]: https://developer.mozilla.org/en/JavaScript/Reference/Statements/const
 
 ## Object / Array creation
 
