@@ -250,7 +250,12 @@ function BankAccount() {
 
 /** @constructor */
 var Client = function() {
+};
 
+/** @enum {string} */
+var CountryLocale = {
+  CHINA: 'zh-CN',
+  US: 'en-US'
 };
 ```
 
@@ -262,7 +267,12 @@ function bank_Account() {
 
 /** @constructor */
 var client = function() {
+};
 
+/** @enum {string} */
+var countryLocale = {
+  CHINA: 'zh-CN',
+  US: 'en-US'
 };
 ```
 
@@ -301,6 +311,38 @@ function File() {
 }
 
 File.fullPermissions = 0777;
+```
+
+### File and Directories
+
+File and directory names should be lower-lisp-case, such as `a-awesome-dir`,
+`a-super-cool-file.js`, or `some-random-class.js`.
+
+For test files, a suffix of `_test` must be inserted right before `.js` file
+extension; e.g. `a-super-cool-file_test.js`, or `some-random-class_test.js`.
+
+In addition, unit test files should mirror the directory structure of the source
+file except under a root `test` directory; e.g. `section-a/class-b.js` vs
+`test/section-a/class-b_test.js`.
+
+*Right:*
+
+```
+dev/section-a/subsection-2/big-giant-class.js # subsection is an english word.
+dev/section-beta/multi-sections/constants.js
+dev/section/special-section/mobile-api-routes.js
+
+test/section/special-section/mobile-api-routes_test.js
+```
+
+*Wrong:*
+
+```
+dev/sectionA/subSection2/BigGiantClass.js
+dev/sectionbeta/multiSections/Constants.js
+dev/section/special-section/mobileApiRoutes.js
+
+test/mobile-api-routes_test.js # Must match directory structure
 ```
 
 ## Object / Array creation
