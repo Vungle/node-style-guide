@@ -236,11 +236,11 @@ var openRTBValue = 'is not cool';
 var aURLThatEatsXMLAndProducesOpenRTB = 'is not cool';
 ```
 
-### Use UpperCamelCase for class names
+### Use UpperCamelCase for enum and class names
 
 Class names should be capitalized using `UpperCamelCase`. For example, when a
-variable is annotated with `@constructor`, it better be an UpperCamelCase class
-name.
+variable is annotated with `@constructor` or `@enum`, it better be an
+UpperCamelCase.
 
 *Right:*
 
