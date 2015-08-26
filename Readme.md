@@ -63,6 +63,25 @@ a core value of our community. Consider the points of [the opposition][], but
 be a traditionalist when it comes to abusing error correction mechanisms for
 cheap syntactic pleasures.
 
+### Do not append semicolons after function unless declared with var
+*Right*
+```js
+function myFunc() {
+} // No semi colon.
+
+var myFunc = function() {
+}; // Semicolon here.
+```
+
+*Wrong*
+```js
+function myFunc() {
+};
+
+var myFunc = function() {
+}
+```
+
 [the opposition]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
 [hnsemicolons]: http://news.ycombinator.com/item?id=1547647
 
