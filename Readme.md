@@ -321,6 +321,9 @@ File and directory names should be lower-lisp-case, such as `a-awesome-dir`,
 For test files, a suffix of `_test` must be inserted right before `.js` file
 extension; e.g. `a-super-cool-file_test.js`, or `some-random-class_test.js`.
 
+File name and directory names should contain no punctuation except for `-` or
+`_`. (Prefer `-` to `_`).
+
 In addition, unit test files should mirror the directory structure of the source
 file except under a root `test` directory; e.g. `section-a/class-b.js` vs
 `test/section-a/class-b_test.js`.
@@ -344,6 +347,86 @@ dev/section/special-section/mobileApiRoutes.js
 
 test/mobile-api-routes_test.js # Must match directory structure
 ```
+
+### Properties and methods visibility
+
+Private methods and properties should be named with a `_` prefix. E.g.
+`_someVar`, `SomeClass.prototype._somePrivateMethod`, or `obj._privateProp`.
+
+### Optional or variable function parameters
+
+Optional function arguments start with `opt_`.
+
+Functions that take a variable number of arguments should have the last argument
+named `var_args`, it may never be referred in code. Use `arguments` array
+instead.
+
+*Right:*
+
+```js
+function someFunc(requiredArg, opt_arg) {
+  // opt_arg is optional, in the last set of arguments.
+}
+
+function variableFunc(requiredArg, var_args) {
+  hack(requiredArg);
+  hackMore(arguments);
+}
+```
+
+
+*Wrong:*
+
+```js
+function someFunc(opt_arg, requiredArg) {
+  // requiredArg cannot follow an optional argument.
+}
+
+function variableFunc(requiredArg, var_args) {
+  hack(requiredArg);
+  // Do not refer var_args in function body.
+  hackMore(var_args);
+}
+```
+
+### Accessor Functions
+
+Getters and setters methods for properties are *NOT* required. However, if they
+are used, then getters must be named `getFoo()` and setters must be named
+`setFoo(value)`. (For boolean getters, `isFoo()` is also acceptable,
+and often sounds more natural.)
+
+*Right:*
+
+```js
+var BankAccount = function() {};
+
+BankAccount.prototype.getName = function() {
+  // ...
+};
+
+BankAccount.prototype.setName = function(name) {
+  // ...
+};
+```
+
+*Wrong:*
+
+```js
+var BankAccount = function() {};
+
+BankAccount.prototype.name = function() {
+  // get name bank account name.
+};
+
+BankAccount.prototype.location = function(opt_location) {
+  // if location is passed, it's a setter, otherwise, it's a getter.
+};
+```
+
+#### Avoid ECMA5 Getters and Setters
+
+Don't bother trying to be fancy here.
 
 ## Object / Array creation
 
