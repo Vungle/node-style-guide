@@ -477,6 +477,79 @@ setTimeout(function() {
 }, 1000);
 ```
 
+## Do not use associative Array
+
+Never use `Array` as a map/hash/associative array; more precisely you are not
+allowed to use non number indexes for `Array` types. If you need a map/hash use
+`Object` instead of `Array` in these cases because the features that you want
+are actually features of `Object` and not of `Array`. `Array` just happens to
+extend `Object` (like any other object in JS and therefore you might as well
+have used `Date`, `RegExp` or `String`).
+
+*Right:*
+
+```js
+var arr = [1, 2, 3];
+var obj = {};
+
+obj['a'] = 'value';
+obj[1] = 'value';
+```
+
+*Wrong:*
+
+```js
+var arr = [];
+arr['0'] = 3;
+arr.a = 'value';
+```
+
+## Array and Object literals
+
+Initialize `Array` and `Object` literals with `[]` and `{}` rather than the
+constructor.
+
+*Right:*
+
+```js
+var myArray = [];
+var myObject = {};
+```
+
+*Wrong:*
+
+```js
+var myArray = new Array();
+var myObject = new Object();
+```
+
+## Multi-line string literals
+
+When a string literal grows to long, or when you are drafting a paragraph inside
+of the code, make sure to break into multiple lines using string concatenation.
+
+*Right:*
+
+```js
+var myString = 'A rather long string of English text, an error message ' +
+    'actually that just keeps going and going -- an error ' +
+    'message to make the Energizer bunny blush (right through ' +
+    'those Schwarzenegger shades)! Where was I? Oh yes, ' +
+    'you\'ve got an error and all the extraneous whitespace is ' +
+    'just gravy.  Have a nice day.';
+```
+
+*Wrong:*
+
+```js
+var myString = 'A rather long string of English text, an error message \
+                actually that just keeps going and going -- an error \
+                message to make the Energizer bunny blush (right through \
+                those Schwarzenegger shades)! Where was I? Oh yes, \
+                you\'ve got an error and all the extraneous whitespace is \
+                just gravy.  Have a nice day.';
+```
+
 ## Use slashes for comments
 
 Use slashes for both single line and multi line comments. Try to write
