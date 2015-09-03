@@ -39,7 +39,6 @@ according to your preferences.
 * [Use multi-line ternary operator](#use-multi-line-ternary-operator)
 * [Use slashes for comments](#use-slashes-for-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
-* [Getters and setters](#getters-and-setters)
 
 ## 2 Spaces for indention
 
@@ -426,7 +425,13 @@ BankAccount.prototype.location = function(opt_location) {
 
 #### Avoid ECMA5 Getters and Setters
 
-Don't bother trying to be fancy here.
+Don't bother trying to be fancy here. They cause more problems for people who
+try to use your software than they can solve.
+
+If you have to use getters, make sure they free from [side effects][sideeffect],
+like providing a length property for a collection class.
+
+[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
 
 ## Object / Array creation
 
@@ -694,13 +699,3 @@ if (isSessionValid) {
 ## Object.freeze, Object.preventExtensions, Object.seal, with, eval
 
 Crazy shit that you will probably never need. Stay away from it.
-
-## Getters and setters
-
-Do not use setters, they cause more problems for people who try to use your
-software than they can solve.
-
-Feel free to use getters that are free from [side effects][sideeffect], like
-providing a length property for a collection class.
-
-[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
