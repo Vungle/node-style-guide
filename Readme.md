@@ -42,6 +42,7 @@ according to your preferences.
 * [Multi-line string literals](#multi-line-string-literals)
 * [Writing Comments](#writing-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
+* [Avoid delete](#avoid-delete)
 
 ## 2 Spaces for indention
 
@@ -959,3 +960,10 @@ be indented.
 ## Object.freeze, Object.preventExtensions, Object.seal, with, eval
 
 Crazy shit that you will probably never need. Stay away from it.
+
+## Avoid delete
+
+In modern JavaScript engines, changing the number of properties on an object is
+much slower than reassigning the values. The `delete` keyword should be avoided
+except when it's necessary to remove a property from an object's iterated list
+of keys, or to change the result of `if (key in obj)`.
