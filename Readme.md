@@ -39,6 +39,7 @@ according to your preferences.
 * [Use slashes for comments](#use-slashes-for-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
+* [Avoid delete](#avoid-delete)
 
 ## 2 Spaces for indention
 
@@ -534,3 +535,10 @@ Feel free to use getters that are free from [side effects][sideeffect], like
 providing a length property for a collection class.
 
 [sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
+
+## Avoid delete
+
+In modern JavaScript engines, changing the number of properties on an object is
+much slower than reassigning the values. The `delete` keyword should be avoided
+except when it's necessary to remove a property from an object's iterated list
+of keys, or to change the result of `if (key in obj)`.
