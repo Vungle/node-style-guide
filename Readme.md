@@ -33,9 +33,11 @@ according to your preferences.
 * [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
 * [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
 * [Use UPPERCASE for Constants](#use-uppercase-for-constants)
-* [Object / Array creation](#object--array-creation)
 * [Use the === operator](#use-the--operator)
 * [Use multi-line ternary operator](#use-multi-line-ternary-operator)
+* [Do not use associative Array](#do-not-use-associative-array)
+* [Array and Object literals](#array-and-object-literals)
+* [Multi-line string literals](#multi-line-string-literals)
 * [Use slashes for comments](#use-slashes-for-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
@@ -257,32 +259,6 @@ File.fullPermissions = 0777;
 ```
 
 [const]: https://developer.mozilla.org/en/JavaScript/Reference/Statements/const
-
-## Object / Array creation
-
-Use trailing commas and put *short* declarations on a single line. Only quote
-keys when your interpreter complains:
-
-*Right:*
-
-```js
-var a = ['hello', 'world'];
-var b = {
-  good: 'code',
-  'is generally': 'pretty',
-};
-```
-
-*Wrong:*
-
-```js
-var a = [
-  'hello', 'world'
-];
-var b = {"good": 'code'
-        , is generally: 'pretty'
-        };
-```
 
 ## Use the === operator
 
@@ -521,6 +497,44 @@ var myObject = {};
 ```js
 var myArray = new Array();
 var myObject = new Object();
+```
+
+Use trailing commas and put *short* declarations on a single line. Only quote
+keys when your interpreter complains:
+
+*Right:*
+
+```js
+var a = ['hello', 'world'];
+var b = {
+  good: 'code',
+  'is generally': 'pretty',
+};
+var c = [
+  'when there are',
+  'a lot of items',
+  'it is',
+  'a good idea',
+  'to keep',
+  'one item',
+  'per line'
+];
+var d = ['however', 'it', 'is', 'okay', 'if', 'you', 'have', 'just', 'a', 'few',
+    'overflow'];
+```
+
+*Wrong:*
+
+```js
+var a = [
+  'hello', 'world'
+];
+var b = {"good": 'code'
+        , is generally: 'pretty'
+        };
+var c = [
+  'but', 'never',
+  'mix up'];
 ```
 
 ## Multi-line string literals
