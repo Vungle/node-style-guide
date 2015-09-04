@@ -31,9 +31,10 @@ according to your preferences.
 * [Method chaining](#method-chaining)
 * [Declare one variable per var statement](#declare-one-variable-per-var-statement)
 * [Declare classes](#declare-classes)
-* [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
-* [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
-* [Use UPPERCASE for Constants](#use-uppercase-for-constants)
+* [Naming Conventions](#naming-conventions)
+  * [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
+  * [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
+  * [Use UPPERCASE for Constants](#use-uppercase-for-constants)
 * [Use the === operator](#use-the--operator)
 * [Use multi-line ternary operator](#use-multi-line-ternary-operator)
 * [Do not use associative Array](#do-not-use-associative-array)
@@ -41,7 +42,6 @@ according to your preferences.
 * [Multi-line string literals](#multi-line-string-literals)
 * [Use slashes for comments](#use-slashes-for-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
-* [Getters and setters](#getters-and-setters)
 
 ## 2 Spaces for indention
 
@@ -264,7 +264,8 @@ changes the shape and can [degrade performance][v8propaccess].
 
 [v8propaccess]: https://developers.google.com/v8/design#prop_access
 
-## Use lowerCamelCase for variables, properties and function names
+## Naming Conventions
+### Use lowerCamelCase for variables, properties and function names
 
 Variables, properties and function names should use `lowerCamelCase`.  They
 should also be descriptive. Single character variables and uncommon
@@ -274,23 +275,60 @@ abbreviations should generally be avoided.
 
 ```js
 var adminUser = db.query('SELECT * FROM users ...');
+var itIsOkToHaveSuperLongVariableNames = 'whats up';
 ```
 
 *Wrong:*
 
 ```js
 var admin_user = db.query('SELECT * FROM users ...');
+var nua = 'Never use abbreviations.';
 ```
 
-## Use UpperCamelCase for class names
+#### Proper, well-known names should only capitalize the first character
+Proper or well-known abbreviations such as URL, XML, VAST, OpenRTB shoud only
+capitalize the first character of the abbreviation.
 
-Class names should be capitalized using `UpperCamelCase`.
+*Right:*
+
+```js
+var urlFormatter = 'is cool';
+var isUrlFormatter = 'is cool';
+var openRtbValue = 'is cool';
+var aUrlThatEatsXmlAndProducesOpenRtb = 'is cool';
+```
+
+*Wrong:*
+
+```js
+var uRLFormatter = 'is not cool';
+var URLFormatter = 'is not cool';
+var isURLFormatter = 'is not cool';
+var openRTBValue = 'is not cool';
+var aURLThatEatsXMLAndProducesOpenRTB = 'is not cool';
+```
+
+### Use UpperCamelCase for enum and class names
+
+Class names should be capitalized using `UpperCamelCase`. For example, when a
+variable is annotated with `@constructor` or `@enum`, it better be an
+UpperCamelCase.
 
 *Right:*
 
 ```js
 function BankAccount() {
 }
+
+/** @constructor */
+var Client = function() {
+};
+
+/** @enum {string} */
+var CountryLocale = {
+  CHINA: 'zh-CN',
+  US: 'en-US'
+};
 ```
 
 *Wrong:*
@@ -298,38 +336,175 @@ function BankAccount() {
 ```js
 function bank_Account() {
 }
+
+/** @constructor */
+var client = function() {
+};
+
+/** @enum {string} */
+var countryLocale = {
+  CHINA: 'zh-CN',
+  US: 'en-US'
+};
 ```
 
-## Use UPPERCASE for Constants
+### Use UPPERCASE for Constants
 
 Constants should be declared as regular variables or static class properties,
 using all uppercase letters.
 
-Node.js / V8 actually supports mozilla's [const][const] extension, but
-unfortunately that cannot be applied to class members, nor is it part of any
-ECMA standard.
+*NOTE*: Use of ES6 keyword `const` is okay in NodeJS / V8 engines but
+discouraged until ES6 becomes more widely accepted. And, variablenames should
+still be be UPPERCASE_LIKE_THIS.
+
+Annotation with `@const` is recommended for all constant variables.
 
 *Right:*
 
 ```js
+/** @const */
 var SECOND = 1 * 1000;
+
+var MINUTE = 60 * SECOND; // Okay, but discouraged.
 
 function File() {
 }
+
+/** @const */
 File.FULL_PERMISSIONS = 0777;
 ```
 
 *Wrong:*
 
 ```js
-const SECOND = 1 * 1000;
+var second = 1 * 1000;
 
 function File() {
 }
+
 File.fullPermissions = 0777;
 ```
 
-[const]: https://developer.mozilla.org/en/JavaScript/Reference/Statements/const
+### File and Directories
+
+File and directory names should be lower-lisp-case, such as `a-awesome-dir`,
+`a-super-cool-file.js`, or `some-random-class.js`.
+
+For test files, a suffix of `_test` must be inserted right before `.js` file
+extension; e.g. `a-super-cool-file_test.js`, or `some-random-class_test.js`.
+
+File name and directory names should contain no punctuation except for `-` or
+`_`. (Prefer `-` to `_`).
+
+In addition, unit test files should mirror the directory structure of the source
+file except under a root `test` directory; e.g. `section-a/class-b.js` vs
+`test/section-a/class-b_test.js`.
+
+*Right:*
+
+```
+dev/section-a/subsection-2/big-giant-class.js # subsection is an english word.
+dev/section-beta/multi-sections/constants.js
+dev/section/special-section/mobile-api-routes.js
+
+test/section/special-section/mobile-api-routes_test.js
+```
+
+*Wrong:*
+
+```
+dev/sectionA/subSection2/BigGiantClass.js
+dev/sectionbeta/multiSections/Constants.js
+dev/section/special-section/mobileApiRoutes.js
+
+test/mobile-api-routes_test.js # Must match directory structure
+```
+
+### Properties and methods visibility
+
+Private methods and properties should be named with a `_` prefix. E.g.
+`_someVar`, `SomeClass.prototype._somePrivateMethod`, or `obj._privateProp`.
+
+### Optional or variable function parameters
+
+Optional function arguments start with `opt_`.
+
+Functions that take a variable number of arguments should have the last argument
+named `var_args`, it may never be referred in code. Use `arguments` array
+instead.
+
+*Right:*
+
+```js
+function someFunc(requiredArg, opt_arg) {
+  // opt_arg is optional, in the last set of arguments.
+}
+
+function variableFunc(requiredArg, var_args) {
+  hack(requiredArg);
+  hackMore(arguments);
+}
+```
+
+
+*Wrong:*
+
+```js
+function someFunc(opt_arg, requiredArg) {
+  // requiredArg cannot follow an optional argument.
+}
+
+function variableFunc(requiredArg, var_args) {
+  hack(requiredArg);
+  // Do not refer var_args in function body.
+  hackMore(var_args);
+}
+```
+
+### Accessor Functions
+
+Getters and setters methods for properties are *NOT* required. However, if they
+are used, then getters must be named `getFoo()` and setters must be named
+`setFoo(value)`. (For boolean getters, `isFoo()` is also acceptable,
+and often sounds more natural.)
+
+*Right:*
+
+```js
+var BankAccount = function() {};
+
+BankAccount.prototype.getName = function() {
+  // ...
+};
+
+BankAccount.prototype.setName = function(name) {
+  // ...
+};
+```
+
+*Wrong:*
+
+```js
+var BankAccount = function() {};
+
+BankAccount.prototype.name = function() {
+  // get name bank account name.
+};
+
+BankAccount.prototype.location = function(opt_location) {
+  // if location is passed, it's a setter, otherwise, it's a getter.
+};
+```
+
+#### Avoid ECMA5 Getters and Setters
+
+Don't bother trying to be fancy here. They cause more problems for people who
+try to use your software than they can solve.
+
+If you have to use getters, make sure they free from [side effects][sideeffect],
+like providing a length property for a collection class.
+
+[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
 
 ## Use the === operator
 
@@ -682,13 +857,3 @@ if (isSessionValid) {
 ## Object.freeze, Object.preventExtensions, Object.seal, with, eval
 
 Crazy shit that you will probably never need. Stay away from it.
-
-## Getters and setters
-
-Do not use setters, they cause more problems for people who try to use your
-software than they can solve.
-
-Feel free to use getters that are free from [side effects][sideeffect], like
-providing a length property for a collection class.
-
-[sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
