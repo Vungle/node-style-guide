@@ -36,7 +36,7 @@ according to your preferences.
 * [Object / Array creation](#object--array-creation)
 * [Use the === operator](#use-the--operator)
 * [Use multi-line ternary operator](#use-multi-line-ternary-operator)
-* [Use slashes for comments](#use-slashes-for-comments)
+* [Writing Comments](#writing-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
 
@@ -477,48 +477,150 @@ setTimeout(function() {
 }, 1000);
 ```
 
-## Use slashes for comments
+## Writing Comments
 
-Use slashes for both single line and multi line comments. Try to write
-comments that explain higher level mechanisms or clarify difficult
-segments of your code. Don't use comments to restate trivial things.
+*Referenced from [Google Style Guide][googlecomments]:*
+
+All files, classes, methods and properties should be documented with
+[JSDoc][jsdoc] comments with the appropriate annotations, tags and types.
+Textual descriptions for properties, methods, method parameters and method
+return values should be included unless obvious from the property, method, or
+parameter name.
+
+Complete sentences are recommended but not required. Complete sentences should
+use appropriate capitalization and punctuation.
 
 *Right:*
 
 ```js
-// 'ID_SOMETHING=VALUE' -> ['ID_SOMETHING=VALUE', 'SOMETHING', 'VALUE']
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/));
+/**
+ * A JSDoc comment should begin with a slash and 2 asterisks.
+ * Inline tags should be enclosed in braces like {@code this}.
+ * @desc Block tags should always start on their own line.
+ */
 
-// This function has a nasty side effect where a failure to increment a
-// redis counter used for statistics will cause an exception. This needs
-// to be fixed in a later iteration.
-function loadUser(id, cb) {
-  // ...
-}
+/** One line block comments like this are okay. */
+```
 
-var isSessionValid = (session.expires < Date.now());
-if (isSessionValid) {
-  // ...
+*Wrong:*
+
+```js
+/*
+Multi-line block comments should begin with two asterisks.
+ */
+
+/* C-style block comments are discouraged. */
+```
+
+If a line break is needed in block comments, you should indent the subsequent
+lines with 4 spaces indent. The description paragraph in the block comments does
+not need to be indented.
+
+*Right:*
+
+```js
+/**
+ * This description that spans more than one line does not need to indent its
+ * subsequent lines.
+ * @param {string} myString Descriptions preceded by a JsDoc annotation needs
+ *     to indent the second line with 4 spaces.
+ * @returns {boolean} This applies to any sentence following the JsDoc
+ *     annotation.
+ */
+```
+
+*Wrong:*
+
+```js
+/**
+ * @param {string} myString Descriptions with anything other than 4 spaces
+ * indentation are discouraged.
+ */
+```
+
+[jsdoc]: https://github.com/jsdoc3/jsdoc
+[googlecomments]: https://google.github.io/styleguide/javascriptguide.xml?showone=Comments#Comments
+
+### Class comments
+
+Each class should be created with a block comment documenting its purpose.
+
+*Right:*
+
+```js
+/**
+ * A descriptive documentation of the class.
+ * @constructor
+ * @param  {Array} myArg1 Description of the constructor argument.
+ */
+function myClass(myArg1) {}
+```
+
+*Wrong:*
+
+```js
+/**
+ * Missing [at]constructor annotation is not allowed.
+ */
+function myClass() {}
+```
+
+### Line comments
+
+Line comments are okay to use, but use them sparingly. A general rule of thumb
+to use line comments is to only use line comments in places where it greatly
+improves the code readability. Line comments across multiple lines does not need
+to indent subsequent lines.
+
+Never document a function or a variable with line comments.
+
+*Right:*
+
+```js
+/**
+ * Document a function with block comments.
+ */
+function myFunc() {  
+  // Explain implementation details to improve code readability.
+  someReally(complex(callThatNoOne(understands())));
 }
 ```
 
 *Wrong:*
 
 ```js
-// Execute a regex
-var matches = item.match(/ID_([^\n]+)=([^\n]+)/);
-
-// Usage: loadUser(5, function() { ... })
-function loadUser(id, cb) {
-  // ...
+// Do not document a function with line comments.
+function myFunc() {
+  // No need to document simple logic.
+  return 1 + 1;
 }
+```
 
-// Check if the session is valid
-var isSessionValid = (session.expires < Date.now());
-// If the session is valid
-if (isSessionValid) {
-  // ...
-}
+### TODO Comments
+
+Be very displined when adding a `TODO` in the code base. More often than not,
+they won't be revisited for a while, and they add burdens in the entire code
+base.
+
+`TODO` comments can be added in both block or line comments. When adding a
+`TODO` TODO must be the first word in the line. Subsequent lines do not need to
+be indented.
+
+*Right:*
+
+```js
+// TODO: Add config from some/tracking/link.
+
+/**
+ * TODO: @see Bug 1337
+ */
+```
+
+*Wrong:*
+
+```js
+// Something TODO needs to be always the first word.
+// TODO: Don't add a to-do for things that is already on the roadmap.
 ```
 
 ## Object.freeze, Object.preventExtensions, Object.seal, with, eval
