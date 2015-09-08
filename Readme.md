@@ -58,7 +58,7 @@ Limit your lines to 80 characters wide. Except the following exceptions:
   declared as constants near the beginning of the file.)*
 
 -  Script dependencies, such as `require()`; *(Such occurrences should be
-  declared as constants near the beginning of the file.)*
+  declared near the beginning of the file.)*
 
 ### Indentions
 
