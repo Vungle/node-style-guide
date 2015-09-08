@@ -21,14 +21,15 @@ according to your preferences.
 
 ## Table of contents
 
-* [2 Spaces for indention](#2-spaces-for-indention)
-* [Newlines](#newlines)
-* [No trailing whitespace](#no-trailing-whitespace)
-* [Use Semicolons](#use-semicolons)
-* [80 characters per line](#80-characters-per-line)
-* [Use single quotes](#use-single-quotes)
-* [Opening braces go on the same line](#opening-braces-go-on-the-same-line)
-* [Method chaining](#method-chaining)
+* [Code Formatting](#code-formatting)
+  * [80 characters per line](#80-characters-per-line)
+  * [Indentions](#indentions)
+  * [Newlines](#newlines)
+  * [No trailing whitespace](#no-trailing-whitespace)
+  * [Use Semicolons](#use-semicolons)
+  * [Use single quotes](#use-single-quotes)
+  * [Opening braces go on the same line](#opening-braces-go-on-the-same-line)
+  * [Alphabetize dependencies](#alphabetize-dependencies)
 * [Declare one variable per var statement](#declare-one-variable-per-var-statement)
 * [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
 * [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
@@ -40,23 +41,105 @@ according to your preferences.
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
 
-## 2 Spaces for indention
 
-Use 2 spaces for indenting your code and swear an oath to never mix tabs and
-spaces - a special kind of hell is awaiting you otherwise.
+## Code Formatting
 
-## Newlines
+In general, we will follow [Google's code formatting guide][googleformatting].
+
+[googleformatting]: https://google.github.io/styleguide/javascriptguide.xml?showone=Code_formatting#Code_formatting
+
+### 80 characters per line
+
+Limit your lines to 80 characters wide. Except the following exceptions:
+
+- URL in comments;
+
+- Regular expression created using `/` notation; *(Such occurrences should be
+  declared as constants near the beginning of the file.)*
+
+-  Script dependencies, such as `require()`; *(Such occurrences should be
+  declared as constants near the beginning of the file.)*
+
+### Indentions
+
+Use **two** spaces for indenting your code; wrapped lines should be indented  
+either left-aligned to a sibling expression above, or **four** spaces (not
+**two** spaces) deeper than a parent expression (where "sibling" and "parent"
+refer to parenthesis nesting level).
+
+*Right:*
+
+```js
+var someCrazyLibrary = require('../that/crazy/library/path/we/have/to/deal/with/can/exceed/line/limit');
+
+var SOME_CRAZY_REGEX = /abcdefg?ABCDEFG?OMG[0-9]+way(too|to)?crazy\/can\Wbe\Won\Wsame\Wline/g;
+
+/**
+ * Comments that include URL's like this,
+ * http://superlong.url.i.am.very.tired.of/some/path/some?query=param&more=stuff&is=ok-to-be-in-one-line
+ */
+function someFunc() {
+  this.statement = 'is indented two spaces';
+  andItIsCool();
+
+  some.superLong.statement = thatNeedsToBe(wrapped, willHaveToBe(indented,
+      fourSpacesOnTheFollowingline(
+          withSomeArg,
+          someMoreArg,
+          because,
+          oneArgPerLine,
+          inThisCase,
+          isFine)));
+
+  alternatively(indent(),
+                like(),
+                thisMethod());
+}
+
+var arrayLiteral = [
+  'does',
+  'not',
+  'need',
+  'to',
+  'indent',
+  'four',
+  'spaces'
+];
+
+var objectLiteral = {
+  does: 'not',
+  need: 'to',
+  indent: 'four',
+  spaces: 'cool!'
+};
+```
+
+*Wrong:*
+
+```js
+function doSomething() {
+youShouldKnow()
+.code(shouldNot(
+lookLike,
+this
+));
+}
+
+require('something/that/is/very/long/should/be/moved/to/the/beginning/of/the/file');
+```
+
+### Newlines
 
 Use UNIX-style newlines (`\n`), and a newline character as the last character
 of a file. Windows-style newlines (`\r\n`) are forbidden inside any repository.
 
-## No trailing whitespace
+### No trailing whitespace
 
 Just like you brush your teeth after every meal, you clean up any trailing
 whitespace in your JS files before committing. Otherwise the rotten smell of
 careless neglect will eventually drive away contributors and/or co-workers.
 
-## Use Semicolons
+### Use Semicolons
 
 According to [scientific research][hnsemicolons], the usage of semicolons is
 a core value of our community. Consider the points of [the opposition][], but
@@ -66,13 +149,7 @@ cheap syntactic pleasures.
 [the opposition]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
 [hnsemicolons]: http://news.ycombinator.com/item?id=1547647
 
-## 80 characters per line
-
-Limit your lines to 80 characters. Yes, screens have gotten much bigger over the
-last few years, but your brain has not. Use the additional room for split screen,
-your editor supports that, right?
-
-## Use single quotes
+### Use single quotes
 
 Use single quotes, unless you are writing JSON.
 
@@ -88,7 +165,7 @@ var foo = 'bar';
 var foo = "bar";
 ```
 
-## Opening braces go on the same line
+### Opening braces go on the same line
 
 Your opening braces go on the same line as the statement.
 
@@ -109,51 +186,69 @@ if (true)
 }
 ```
 
-Also, notice the use of whitespace before and after the condition statement.
+#### Newline character after open braces
 
-## Method chaining
-
-One method per line should be used if you want to chain methods.
-
-You should also indent these methods so it's easier to tell they are part of the same chain.
+Always insert a line break following the open brace `{` character, except for
+object literals or immediately closed brace `}` character.
 
 *Right:*
 
 ```js
-User
-  .findOne({ name: 'foo' })
-  .populate('bar')
-  .exec(function(err, user) {
-    return true;
-  });
-````
+function emptyFunc() {}
+
+function trivialFunc() {
+  return false;
+}
+
+if (trivialBoolean) {
+  return false;
+} else {
+  doSomething();
+}
+
+var obj = {'a': 1, 'b': 2};
+```
 
 *Wrong:*
 
 ```js
-User
-.findOne({ name: 'foo' })
-.populate('bar')
-.exec(function(err, user) {
-  return true;
-});
+function trivialFunc() { return false; }
 
-User.findOne({ name: 'foo' })
-  .populate('bar')
-  .exec(function(err, user) {
-    return true;
-  });
+if (trivialBoolean) {  return false; }
+```
 
-User.findOne({ name: 'foo' }).populate('bar')
-.exec(function(err, user) {
-  return true;
-});
+### Alphabetize dependencies
 
-User.findOne({ name: 'foo' }).populate('bar')
-  .exec(function(err, user) {
-    return true;
-  });
-````
+When including dependencies in the code, they should be generally included
+towards the beginning of the file alphabetized first by the globally visible
+package name (*aka npm package name*) then the paths to the file.
+
+There should be a blank line between globally visible dependencies and the local
+dependencies.
+
+It's recommended to name the dependencies the same as their package name.
+
+*Right:*
+
+```js
+// First include globally visible packages.
+var bunyan = require('bunyan');
+var fs = require('fs');
+var redis = require('redis');
+
+// Then include locally created packages. Note the blank line above.
+var albatross = require('./lib/albatross');
+var openRtbValidator = require('./lib/openrtb/validator');
+```
+
+*Wrong:*
+```js
+var fs = require('fs');
+var myBunyan = require('bunyan'); // 'bunyan' package should come before 'fs'.
+// There should be a blank line here.
+var albatross = require('./lib/albatross');
+var redis = require('redis'); // Globally visible package first.
+```
 
 ## Declare one variable per var statement
 
