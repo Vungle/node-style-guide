@@ -39,7 +39,7 @@ according to your preferences.
 * [Use slashes for comments](#use-slashes-for-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
-
+* [Spacing after keywords](#spacing-after-keywords)
 ## 2 Spaces for indention
 
 Use 2 spaces for indenting your code and swear an oath to never mix tabs and
@@ -534,3 +534,35 @@ Feel free to use getters that are free from [side effects][sideeffect], like
 providing a length property for a collection class.
 
 [sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
+
+## Spacing after keywords
+
+Add a space after the following keywords:
+`if, else, for, while, do, switch, try, catch, finally, and with`.
+
+*Right:*
+
+```js
+if (addSpace === true) {
+  console.log('you did right');
+}
+
+for (var i = 0) {
+  // ...
+}
+
+do {
+  // .....
+} while (expression);
+```
+
+*Wrong*
+```js
+if(iWantToSaveSpace) {
+  return iDidItWrong;
+}
+
+for(var j = 3) {
+  //...
+}
+```
