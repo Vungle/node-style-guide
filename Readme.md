@@ -520,7 +520,7 @@ var c = [
   'per line'
 ];
 var d = ['however', 'it', 'is', 'okay', 'if', 'you', 'have', 'just', 'a', 'few',
-    'overflow'];
+  'overflow'];
 ```
 
 *Wrong:*
@@ -546,11 +546,11 @@ of the code, make sure to break into multiple lines using string concatenation.
 
 ```js
 var myString = 'A rather long string of English text, an error message ' +
-    'actually that just keeps going and going -- an error ' +
-    'message to make the Energizer bunny blush (right through ' +
-    'those Schwarzenegger shades)! Where was I? Oh yes, ' +
-    'you\'ve got an error and all the extraneous whitespace is ' +
-    'just gravy.  Have a nice day.';
+  'actually that just keeps going and going -- an error ' +
+  'message to make the Energizer bunny blush (right through ' +
+  'those Schwarzenegger shades)! Where was I? Oh yes, ' +
+  'you\'ve got an error and all the extraneous whitespace is ' +
+  'just gravy.  Have a nice day.';
 ```
 
 *Wrong:*
