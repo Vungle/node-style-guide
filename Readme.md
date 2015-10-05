@@ -30,6 +30,7 @@ according to your preferences.
 * [Opening braces go on the same line](#opening-braces-go-on-the-same-line)
 * [Method chaining](#method-chaining)
 * [Declare one variable per var statement](#declare-one-variable-per-var-statement)
+* [Declare classes](#declare-classes)
 * [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
 * [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
 * [Use UPPERCASE for Constants](#use-uppercase-for-constants)
@@ -146,7 +147,7 @@ User
   .exec(function(err, user) {
     return true;
   });
-````
+```
 
 *Wrong:*
 
@@ -173,7 +174,7 @@ User.findOne({ name: 'foo' }).populate('bar')
   .exec(function(err, user) {
     return true;
   });
-````
+```
 
 ## Declare one variable per var statement
 
@@ -210,6 +211,57 @@ while (keys.length) {
 ```
 
 [crockfordconvention]: http://javascript.crockford.com/code.html
+
+## Declare Classes
+
+Declare a class using the `@constructor` jsdoc annotation. Like,
+
+```js
+/**
+ * @constructor
+ */
+function SomeClass() {}
+```
+
+While there are several ways to attach methods and properties to an object
+created via `new`, the preferred style for methods is:
+
+```js
+SomeClass.prototype.someMethod = function() {
+  /* ... */
+};
+```
+
+The preferred style for other properties is to initialize the field in the
+constructor:
+
+```js
+/** @constructor */
+function SomeClass() {
+  this.someProperty = 'someDefaultValue';
+}
+```
+
+NEVER extend class methods or properties on the instance.
+
+*Wrong:*
+```js
+/** @constructor */
+function SomeClass() {}
+
+var someInstance = new SomeClass();
+someInstance.newProperty = 1;
+someInstance.newMethod = function() {
+  return 'I cannot do this!';
+};
+```
+
+**Why?**
+Current JavaScript engines optimize based on the "shape" of an object, adding a
+property to an object (including overriding a value set on the prototype)
+changes the shape and can [degrade performance][v8propaccess].
+
+[v8propaccess]: https://developers.google.com/v8/design#prop_access
 
 ## Use lowerCamelCase for variables, properties and function names
 
