@@ -672,7 +672,7 @@ Multi-line block comments should begin with two asterisks.
 ```
 
 If a line break is needed in block comments, you should indent the subsequent
-lines with 4 spaces indent. The description paragraph in the block comments does
+lines with 2 spaces indent. The description paragraph in the block comments does
 not need to be indented.
 
 *Right:*
@@ -682,9 +682,9 @@ not need to be indented.
  * This description that spans more than one line does not need to indent its
  * subsequent lines.
  * @param {string} myString Descriptions preceded by a JsDoc annotation needs
- *     to indent the second line with 4 spaces.
+ *   to indent the second line with 2 spaces.
  * @returns {boolean} This applies to any sentence following the JsDoc
- *     annotation.
+ *   annotation.
  */
 ```
 
@@ -692,7 +692,7 @@ not need to be indented.
 
 ```js
 /**
- * @param {string} myString Descriptions with anything other than 4 spaces
+ * @param {string} myString Descriptions with anything other than 2 spaces
  * indentation are discouraged.
  */
 ```
