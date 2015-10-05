@@ -30,15 +30,19 @@ according to your preferences.
 * [Opening braces go on the same line](#opening-braces-go-on-the-same-line)
 * [Method chaining](#method-chaining)
 * [Declare one variable per var statement](#declare-one-variable-per-var-statement)
+* [Declare classes](#declare-classes)
 * [Use lowerCamelCase for variables, properties and function names](#use-lowercamelcase-for-variables-properties-and-function-names)
 * [Use UpperCamelCase for class names](#use-uppercamelcase-for-class-names)
 * [Use UPPERCASE for Constants](#use-uppercase-for-constants)
-* [Object / Array creation](#object--array-creation)
 * [Use the === operator](#use-the--operator)
 * [Use multi-line ternary operator](#use-multi-line-ternary-operator)
+* [Do not use associative Array](#do-not-use-associative-array)
+* [Array and Object literals](#array-and-object-literals)
+* [Multi-line string literals](#multi-line-string-literals)
 * [Writing Comments](#writing-comments)
 * [Object.freeze, Object.preventExtensions, Object.seal, with, eval](#objectfreeze-objectpreventextensions-objectseal-with-eval)
 * [Getters and setters](#getters-and-setters)
+* [Avoid delete](#avoid-delete)
 
 ## 2 Spaces for indention
 
@@ -62,6 +66,25 @@ According to [scientific research][hnsemicolons], the usage of semicolons is
 a core value of our community. Consider the points of [the opposition][], but
 be a traditionalist when it comes to abusing error correction mechanisms for
 cheap syntactic pleasures.
+
+### Do not append semicolons after function unless declared with var
+*Right*
+```js
+function myFunc() {
+} // No semi colon.
+
+var myFunc = function() {
+}; // Semicolon here.
+```
+
+*Wrong*
+```js
+function myFunc() {
+};
+
+var myFunc = function() {
+}
+```
 
 [the opposition]: http://blog.izs.me/post/2353458699/an-open-letter-to-javascript-leaders-regarding
 [hnsemicolons]: http://news.ycombinator.com/item?id=1547647
@@ -126,7 +149,7 @@ User
   .exec(function(err, user) {
     return true;
   });
-````
+```
 
 *Wrong:*
 
@@ -153,7 +176,7 @@ User.findOne({ name: 'foo' }).populate('bar')
   .exec(function(err, user) {
     return true;
   });
-````
+```
 
 ## Declare one variable per var statement
 
@@ -190,6 +213,57 @@ while (keys.length) {
 ```
 
 [crockfordconvention]: http://javascript.crockford.com/code.html
+
+## Declare Classes
+
+Declare a class using the `@constructor` jsdoc annotation. Like,
+
+```js
+/**
+ * @constructor
+ */
+function SomeClass() {}
+```
+
+While there are several ways to attach methods and properties to an object
+created via `new`, the preferred style for methods is:
+
+```js
+SomeClass.prototype.someMethod = function() {
+  /* ... */
+};
+```
+
+The preferred style for other properties is to initialize the field in the
+constructor:
+
+```js
+/** @constructor */
+function SomeClass() {
+  this.someProperty = 'someDefaultValue';
+}
+```
+
+NEVER extend class methods or properties on the instance.
+
+*Wrong:*
+```js
+/** @constructor */
+function SomeClass() {}
+
+var someInstance = new SomeClass();
+someInstance.newProperty = 1;
+someInstance.newMethod = function() {
+  return 'I cannot do this!';
+};
+```
+
+**Why?**
+Current JavaScript engines optimize based on the "shape" of an object, adding a
+property to an object (including overriding a value set on the prototype)
+changes the shape and can [degrade performance][v8propaccess].
+
+[v8propaccess]: https://developers.google.com/v8/design#prop_access
 
 ## Use lowerCamelCase for variables, properties and function names
 
@@ -257,32 +331,6 @@ File.fullPermissions = 0777;
 ```
 
 [const]: https://developer.mozilla.org/en/JavaScript/Reference/Statements/const
-
-## Object / Array creation
-
-Use trailing commas and put *short* declarations on a single line. Only quote
-keys when your interpreter complains:
-
-*Right:*
-
-```js
-var a = ['hello', 'world'];
-var b = {
-  good: 'code',
-  'is generally': 'pretty',
-};
-```
-
-*Wrong:*
-
-```js
-var a = [
-  'hello', 'world'
-];
-var b = {"good": 'code'
-        , is generally: 'pretty'
-        };
-```
 
 ## Use the === operator
 
@@ -477,6 +525,117 @@ setTimeout(function() {
 }, 1000);
 ```
 
+## Do not use associative Array
+
+Never use `Array` as a map/hash/associative array; more precisely you are not
+allowed to use non number indexes for `Array` types. If you need a map/hash use
+`Object` instead of `Array` in these cases because the features that you want
+are actually features of `Object` and not of `Array`. `Array` just happens to
+extend `Object` (like any other object in JS and therefore you might as well
+have used `Date`, `RegExp` or `String`).
+
+*Right:*
+
+```js
+var arr = [1, 2, 3];
+var obj = {};
+
+obj['a'] = 'value';
+obj[1] = 'value';
+```
+
+*Wrong:*
+
+```js
+var arr = [];
+arr['0'] = 3;
+arr.a = 'value';
+```
+
+## Array and Object literals
+
+Initialize `Array` and `Object` literals with `[]` and `{}` rather than the
+constructor.
+
+*Right:*
+
+```js
+var myArray = [];
+var myObject = {};
+```
+
+*Wrong:*
+
+```js
+var myArray = new Array();
+var myObject = new Object();
+```
+
+Use trailing commas and put *short* declarations on a single line. Only quote
+keys when your interpreter complains:
+
+*Right:*
+
+```js
+var a = ['hello', 'world'];
+var b = {
+  good: 'code',
+  'is generally': 'pretty',
+};
+var c = [
+  'when there are',
+  'a lot of items',
+  'it is',
+  'a good idea',
+  'to keep',
+  'one item',
+  'per line'
+];
+var d = ['however', 'it', 'is', 'okay', 'if', 'you', 'have', 'just', 'a', 'few',
+  'overflow'];
+```
+
+*Wrong:*
+
+```js
+var a = [
+  'hello', 'world'
+];
+var b = {"good": 'code'
+        , is generally: 'pretty'
+        };
+var c = [
+  'but', 'never',
+  'mix up'];
+```
+
+## Multi-line string literals
+
+When a string literal grows to long, or when you are drafting a paragraph inside
+of the code, make sure to break into multiple lines using string concatenation.
+
+*Right:*
+
+```js
+var myString = 'A rather long string of English text, an error message ' +
+  'actually that just keeps going and going -- an error ' +
+  'message to make the Energizer bunny blush (right through ' +
+  'those Schwarzenegger shades)! Where was I? Oh yes, ' +
+  'you\'ve got an error and all the extraneous whitespace is ' +
+  'just gravy.  Have a nice day.';
+```
+
+*Wrong:*
+
+```js
+var myString = 'A rather long string of English text, an error message \
+                actually that just keeps going and going -- an error \
+                message to make the Energizer bunny blush (right through \
+                those Schwarzenegger shades)! Where was I? Oh yes, \
+                you\'ve got an error and all the extraneous whitespace is \
+                just gravy.  Have a nice day.';
+```
+
 ## Writing Comments
 
 *Referenced from [Google Style Guide][googlecomments]:*
@@ -636,3 +795,11 @@ Feel free to use getters that are free from [side effects][sideeffect], like
 providing a length property for a collection class.
 
 [sideeffect]: http://en.wikipedia.org/wiki/Side_effect_(computer_science)
+
+## Avoid delete
+
+In modern JavaScript engines, changing the number of properties on an object is
+much slower than reassigning the values. The `delete` keyword should be avoided
+except when it's necessary to remove a property from an object's iterated list
+of keys, or to change the result of `if (key in obj)`. The alternative to
+`delete` is to simply set `null` to the property.
